@@ -5,7 +5,7 @@ const LinkWithIcon = ({ title, link, icon, sidebar }) => {
   return (
     <NavLink
       to={link}
-      className={`flex items-center  text-[16px] font-[600] ${
+      className={`flex items-center  text-[18px] font-semibold ${
         sidebar
           ? "flex-row-reverse place-content-start gap-x-[2px] hover:bg-[#f6f8fa] duration-500 ease-in-out rounded-sm py-2 px-3"
           : ""

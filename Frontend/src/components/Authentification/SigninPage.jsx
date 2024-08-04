@@ -1,7 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { getUser, signin } from "../../services/userServices";
+import { Navigate, useLocation } from "react-router-dom";
 
 const schema = z.object({
   email: z.string().email().min(3),
@@ -14,10 +16,25 @@ const SigninPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
-  const onSubmit = (formData) => {
-    console.log(formData);
+  const [formErrors, setformErrors] = useState("");
+
+  const location = useLocation();
+
+  const onSubmit = async (formData) => {
+    try {
+      await signin(formData);
+
+      window.location = location.state ? location.state.from : "/";
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        setformErrors(err.response.data.message);
+      }
+    }
   };
 
+  if (getUser()) {
+    return <Navigate to="/"></Navigate>;
+  }
   return (
     <section className="bg-white w-[30%] mx-auto my-10">
       <form
@@ -57,6 +74,9 @@ const SigninPage = () => {
               <em className="text-red-600">{errors.password?.message}</em>
             )}
           </div>
+          {formErrors && (
+            <em className="text-red-500 font-semibold">{formErrors}</em>
+          )}
           <button className="mt-4 bg-indigo-600 text-white rounded py-1 text-[18px] font-[500]">
             Submit
           </button>

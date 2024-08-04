@@ -3,6 +3,7 @@ import user from "../../assets/user.webp";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signup } from "../../services/userServices";
 
 const schema = z
   .object({
@@ -19,6 +20,7 @@ const schema = z
 
 const SignUp = () => {
   const [profileImage, setprofileImage] = useState(null);
+  const [formErrors, setformErrors] = useState("");
 
   const {
     register,
@@ -28,8 +30,14 @@ const SignUp = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (formData) => {
-    console.log(formData);
+  const onSubmit = async (formData) => {
+    try {
+      await signup(formData, profileImage);
+      window.location = "/";
+    } catch (err) {
+      if (err.response && err.response.status === 400)
+        setformErrors(err.response.data.message);
+    }
   };
 
   return (
@@ -138,6 +146,7 @@ const SignUp = () => {
             <em className="text-red-600">{errors.delivery_address.message}</em>
           )}
         </div>
+        {formErrors && <em className="mt-2 text-red-500">{formErrors}</em>}
         <button className="mt-8 bg-indigo-600 text-white rounded py-1 text-[18px] font-[500] w-[80%]">
           Submit
         </button>
