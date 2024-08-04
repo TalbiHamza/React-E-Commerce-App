@@ -3,6 +3,8 @@ import LinkWithIcon from "../Navbar/LinkWithIcon";
 import useFetch from "../../hooks/useFetch";
 import SidebarLinkSkeleton from "./SidebarLinkSkeleton";
 
+import config from "../../config.json";
+
 const Sidebar = () => {
   const { Data: Categories, Errors: errors, isLoading } = useFetch("/category");
   const skeletons = [1, 2, 3, 4, 5];
@@ -19,7 +21,7 @@ const Sidebar = () => {
                 key={category._id}
                 title={category.name}
                 link={`/products?category=${category.name}`}
-                icon={`http://localhost:5000/category/${category.image}`}
+                icon={`${config.backendURL}/category/${category.image}`}
                 sidebar={true}
               />
             );

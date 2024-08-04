@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import CartContext from "../../contexts/CartContext";
 import UserContext from "../../contexts/UserContext";
 
+import config from "../../config.json";
+
 const SingleProduct = () => {
   const { AddToCart } = useContext(CartContext);
   const user = useContext(UserContext);
@@ -42,7 +44,7 @@ const SingleProduct = () => {
                 {product.images.map((image, index) => (
                   <img
                     key={index}
-                    src={`http://localhost:5000/products/${image}`}
+                    src={`${config.backendURL}/products/${image}`}
                     alt={product.title}
                     className={`w-[80px] rounded cursor-pointer ${
                       SelectedImg === index
@@ -54,7 +56,7 @@ const SingleProduct = () => {
                 ))}
               </div>
               <img
-                src={`http://localhost:5000/products/${product.images[SelectedImg]}`}
+                src={`${config.backendURL}/products/${product.images[SelectedImg]}`}
                 alt={product.title}
                 className="rounded object-cover w-[500px] h-[500px]"
               />

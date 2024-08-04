@@ -9,6 +9,8 @@ import UserContext from "../../contexts/UserContext";
 import CartContext from "../../contexts/CartContext";
 import { checkOutApi } from "./../../services/OrderServices";
 
+import config from "../../config.json";
+
 const CartPage = () => {
   const [Subtotal, setSubtotal] = useState(0);
 
@@ -40,7 +42,7 @@ const CartPage = () => {
     <section className="flex flex-col items-center justify-center w-[60%] mx-auto p-[16px_32px]">
       <div className="flex items-center mb-4">
         <img
-          src={`http://localhost/profile/${user?.profilePic}`}
+          src={`${config.backendURL}/${user?.profilePic}`}
           alt=""
           className="w-20  h-20 rounded-full mr-3"
         />
